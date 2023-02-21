@@ -9,9 +9,9 @@ RUN apt-get update && apt-get -y install curl && \
     ./get_helm.sh && \
     rm -rf get_helm.sh /var/lib/apt/lists && \
     rm -rf /var/cache/apt/archives/* && \
-    mkdir /.config && \
-    chown -R 1001:root /.config && \
-    chmod -R 770 /.config
+    mkdir /.config /.cache && \
+    chown -R 1001:root /.config /.cache && \
+    chmod -R 770 /.config /.cache
 
 USER 1001
 
