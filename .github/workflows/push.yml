@@ -18,7 +18,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Build all images
         run: |
+          ls -al
           docker-compose -f docker-compose-build.yml build
           docker-compose -f docker-compose-build.yml push
