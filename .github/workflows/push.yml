@@ -17,11 +17,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-      - name: Download helm installer
-        run: |
-          curl -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-      
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
