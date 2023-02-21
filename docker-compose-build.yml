@@ -1,0 +1,13 @@
+version: "3.2"
+services:
+
+  kubectl-envsubst:
+    container_name: kubectl-envsubst
+    image: cloudyne/kubectl-envsubst:latest
+    build: cloudyne/kubectl-envsubst
+
+  kubectl-helm:
+    container_name: kubectl-helm
+    image: cloudyne/kubectl-helm:latest
+    build: cloudyne/kubectl-helm
+    depends_on: kubectl-envsubst

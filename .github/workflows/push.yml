@@ -18,9 +18,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          tags: cloudyne/kubectl-helm:latest
-    
+      - name: Build all images
+        run: |
+          docker-compose -f docker-compose-build.yml build --push

@@ -1,2 +1,11 @@
-# kubectl-helm
-Docker image with kubectl and helm, based on bitnami/kubectl
+# misc-docker
+Miscellaneous docker images for kubernetes/cicd
+
+## cloudyne/kubectl-helm
+Bitnami kubectl container with Helm installed
+
+## cloudyne/kubectl-helm-envsubst
+Bitnami kubectl container with Helm and envsubst installed
+
+## cloudyne/kubectl-envsubst
+Bitnami kubectl container with envsubst installed
