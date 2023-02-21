@@ -10,4 +10,4 @@ services:
     container_name: kubectl-helm
     image: cloudyne/kubectl-helm:latest
     build: cloudyne/kubectl-helm
-    depends_on: kubectl-envsubst
+    depends_on: ["kubectl-envsubst"]
