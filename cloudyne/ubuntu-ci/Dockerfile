@@ -1,21 +1,23 @@
 FROM ubuntu:latest
 
-# Install base packages
-RUN apt-get -y update && \
+# Install base packages and azure-cli
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash && \
     apt-get -y install curl wget git \
         bash sudo net-tools dnsutils \
         gettext-base python3 python3-pip \
         python3-setuptools python3-venv && \
-    apt-get -y clean && \
+    apt-get clean && \
     apt-get -y autoremove && \
-    apt-get && rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/*
 
 
-# Install Kubectl
-RUN bash <(curl -fsSl i.v3.nu/kubectl)
+# Install kubectl
+RUN curl -fsSL "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /tmp/v3-kubectl && \
+    sudo install -o root -g root -m 0755 /tmp/v3-kubectl /usr/local/bin/kubectl && \
+    sudo bash -c 'kubectl completion bash > /etc/bash_completion.d/kubectl' && \
+    echo -e '\nalias k="kubectl"\nalias ksetn="k config set-context --current --namespace"' >> ~/.bash_aliases
 
 # Install Helm
-RUN bash <(curl -fsSl i.v3.nu/helm)
+RUN curl -fsSl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash
 
-# Install Azure-CLI
-RUN bash <(curl -fsSl i.v3.nu/azure-cli)
+ENTRYPOINT [""]

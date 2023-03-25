@@ -31,8 +31,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Check if new version of kubectl-helm has been created
+        id: changed-files-kubectl-helm
+        uses: tj-actions/changed-files@v35
+        with:
+          files: cloudyne/kubectl-helm/**
+
       - name: Build and push kubectl-helm
         uses: docker/build-push-action@v2
+        if: steps.changed-files-kubectl-helm.outputs.any_changed == 'true'
         with:
           context: ./cloudyne/kubectl-helm
           file: ./cloudyne/kubectl-helm/Dockerfile
@@ -41,8 +48,15 @@ jobs:
             ghcr.io/cloudynes/kubectl-helm:latest
             cloudyne/kubectl-helm:latest
       
+      - name: Check if new version of kubectl-envsubst has been created
+        id: changed-files-kubectl-envsubst
+        uses: tj-actions/changed-files@v35
+        with:
+          files: cloudyne/kubectl-envsubst/**
+
       - name: Build and push kubectl-envsubst
         uses: docker/build-push-action@v2
+        if: steps.changed-files-kubectl-envsubst.outputs.any_changed == 'true'
         with:
           context: ./cloudyne/kubectl-envsubst
           file: ./cloudyne/kubectl-envsubst/Dockerfile
@@ -51,8 +65,15 @@ jobs:
             ghcr.io/cloudynes/kubectl-envsubst:latest
             cloudyne/kubectl-envsubst:latest
       
+      - name: Check if new version of ubuntu-ci has been created
+        id: changed-files-ubuntu-ci
+        uses: tj-actions/changed-files@v35
+        with:
+          files: cloudyne/ubuntu-ci/**
+
       - name: Build and push ubuntu-ci
         uses: docker/build-push-action@v2
+        if: steps.changed-files-ubuntu-ci.outputs.any_changed == 'true'
         with:
           context: ./cloudyne/ubuntu-ci
           file: ./cloudyne/ubuntu-ci/Dockerfile
