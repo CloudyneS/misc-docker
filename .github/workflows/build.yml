@@ -1,0 +1,64 @@
+name: build
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  kubectl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: cloudynes
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push kubectl-helm
+        uses: docker/build-push-action@v2
+        with:
+          context: ./cloudyne/kubectl-helm
+          file: ./cloudyne/kubectl-helm/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/cloudynes/kubectl-helm:latest
+            cloudyne/kubectl-helm:latest
+      
+      - name: Build and push kubectl-envsubst
+        uses: docker/build-push-action@v2
+        with:
+          context: ./cloudyne/kubectl-envsubst
+          file: ./cloudyne/kubectl-envsubst/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/cloudynes/kubectl-envsubst:latest
+            cloudyne/kubectl-envsubst:latest
+      
+      - name: Build and push ubuntu-ci
+        uses: docker/build-push-action@v2
+        with:
+          context: ./cloudyne/ubuntu-ci
+          file: ./cloudyne/ubuntu-ci/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/cloudynes/ubuntu-ci:latest
+            cloudyne/ubuntu-ci:latest
+      
+      
