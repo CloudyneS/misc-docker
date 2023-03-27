@@ -20,11 +20,11 @@ class Upload:
         self.client = BlobClient.from_blob_url(self.sas_url.replace("?", f"/{self.destination_path}?"))
         
         print("Successfully created client")
-        self.upload_file()
+        self.upload()
         
         print("Successfully uploaded file")
 
-    def upload_file(self):
+    def upload(self):
         print("Started uploading file...")
         with open(self.upload_file, "rb") as data:
             self.client.upload_blob(data, overwrite=True, blob_type="BlockBlob")            
