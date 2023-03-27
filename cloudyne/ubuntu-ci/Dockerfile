@@ -24,4 +24,12 @@ RUN curl -fsSL "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release
 # Install Helm
 RUN curl -fsSl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash
 
+# Add script for uploading files to Azure
+COPY ./azure-upload.py /usr/local/bin/azure-upload
+COPY ./requirements.txt /tmp/requirements.txt
+
+RUN /usr/bin/python3 -m pip install -r /tmp/requirements.txt && \
+    rm /tmp/requirements.txt && \
+    chmod +x /usr/local/bin/azure-upload
+
 ENTRYPOINT [""]
