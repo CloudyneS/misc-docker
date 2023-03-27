@@ -3,7 +3,7 @@ FROM ubuntu:latest
 # Install base packages and azure-cli
 RUN apt-get update && \
     
-    apt-get -y install curl wget git \
+    apt-get -y install curl wget git zip tar \
         bash sudo net-tools dnsutils \
         gettext-base python3 python3-pip \
         python3-setuptools python3-venv && \
