@@ -80,6 +80,8 @@ jobs:
           push: true
           tags: |
             ghcr.io/cloudynes/ubuntu-ci:latest
+            ghcr.io/cloudynes/ubuntu-ci:2023
             cloudyne/ubuntu-ci:latest
+            cloudyne/ubuntu-ci:2023
       
       
