@@ -1,0 +1,51 @@
+name: build
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  kubectl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: cloudynes
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Check if new version of external-repman has been created
+        id: changed-files-external-repman
+        uses: tj-actions/changed-files@v35
+        with:
+          files: external/repman/stable-release-fix/**
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        if: steps.changed-files-external-repman.outputs.any_changed == 'true'
+        with:
+          context: ./external/repman/stable-release-fix
+          file: ./external/repman/stable-release-fix/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/cloudynes/repman-stablefix:latest
+            cloudyne/repman-stablefix:latest
+            ghcr.io/cloudynes/repman-stablefix:1.4.0
+            cloudyne/repman-stablefix:1.4.0
