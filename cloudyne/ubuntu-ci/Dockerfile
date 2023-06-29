@@ -26,10 +26,11 @@ RUN curl -fsSl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm
 
 # Add script for uploading files to Azure
 COPY ./azure-upload.py /usr/local/bin/azure-upload
+COPY ./storage-clone.py /usr/local/bin/storage-clone
 COPY ./requirements.txt /tmp/requirements.txt
 
 RUN /usr/bin/python3 -m pip install -r /tmp/requirements.txt && \
     rm /tmp/requirements.txt && \
-    chmod +x /usr/local/bin/azure-upload
+    chmod +x /usr/local/bin/azure-upload /usr/local/bin/storage-clone
 
 ENTRYPOINT [""]
