@@ -30,7 +30,7 @@ if __name__ == '__main__':
         print('Usage: python3 storage-clone.py <source> <destination>')
         sys.exit(1)
 
-    src_path = sys.argv[1] if sys.argv[0] == "storage-clone" else sys.argv[2] 
+    src_path = sys.argv[1] if sys.argv[0] == "storage-clone" else sys.argv[2]
     dst_path = sys.argv[2] if sys.argv[0] == "storage-clone" else sys.argv[3]
 
     if not os.path.isdir(src_path) or not os.path.isdir(dst_path):
@@ -41,5 +41,12 @@ if __name__ == '__main__':
         print('Destination is locked, skipping copy')
         sys.exit(0)
 
-    print('Copying {} to {}'.format(src_path, dst_path))
+    print(f'Copying {src_path} to {dst_path}')
     shutil.copytree(src_path, dst_path)
+
+    print("Creating lock file...")
+    with open(os.path.join(dst_path, '.copy-lock'), 'w', encoding='utf-8') as lock_file:
+        lock_file.write('locked')
+
+    print('Finished copying')
+    sys.exit(0)
