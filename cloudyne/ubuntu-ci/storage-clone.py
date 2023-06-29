@@ -19,19 +19,28 @@ def check_lock(path: str) -> bool:
 
 
 if __name__ == '__main__':
-    if (
-        (
-            sys.argv[0] == "storage-clone" and
-            len(sys.argv) < 3
-        ) or (
-            sys.argv[0] in ["python", "python3"] and
-            len(sys.argv) < 4
-        )):
+    if len(sys.argv) < 2:
         print('Usage: python3 storage-clone.py <source> <destination>')
+        print('Args: ', ' '.join(sys.argv))
         sys.exit(1)
-
-    src_path = sys.argv[1] if sys.argv[0] == "storage-clone" else sys.argv[2]
-    dst_path = sys.argv[2] if sys.argv[0] == "storage-clone" else sys.argv[3]
+    src_path = dst_path = ''
+    
+    if len(sys.argv) == 2 and sys.argv[0][0] == '/' and sys.argv[1][0] == '/':
+        src_path = sys.argv[0]
+        dst_path = sys.argv[1]
+    
+    elif len(sys.argv) == 3 and sys.argv[1][0] == '/' and sys.argv[2][0] == '/':
+        src_path = sys.argv[1]
+        dst_path = sys.argv[2]
+    
+    elif len(sys.argv) == 3 and sys.argv[2][0] == '/' and sys.argv[3][0] == '/':
+        src_path = sys.argv[2]
+        dst_path = sys.argv[3]
+        
+    else:
+        print('Usage: python3 storage-clone.py <source> <destination>')
+        print('Args: ', ' '.join(sys.argv))
+        sys.exit(1)
 
     if not os.path.isdir(src_path) or not os.path.isdir(dst_path):
         print('One of the paths is not a directory')
