@@ -51,7 +51,7 @@ if __name__ == '__main__':
         sys.exit(0)
 
     print(f'Copying {src_path} to {dst_path}')
-    shutil.copytree(src_path, dst_path)
+    shutil.copytree(src_path, dst_path, dirs_exist_ok=True)
 
     print("Creating lock file...")
     with open(os.path.join(dst_path, '.copy-lock'), 'w', encoding='utf-8') as lock_file:
