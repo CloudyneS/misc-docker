@@ -84,4 +84,14 @@ jobs:
             cloudyne/ubuntu-ci:latest
             cloudyne/ubuntu-ci:2023
       
-      
+      - name: Build and push debian-ci
+        uses: docker/build-push-action@v2
+        with:
+          context: ./cloudyne/debian-ci
+          file: ./cloudyne/debian-ci/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/cloudynes/debian-ci:latest
+            ghcr.io/cloudynes/debian-ci:2023
+            cloudyne/debian-ci:latest
+            cloudyne/debian-ci:2023
